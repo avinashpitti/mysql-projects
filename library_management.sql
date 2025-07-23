@@ -59,6 +59,7 @@ values
 (3,"java"),
 (4,"python");
 
+
 alter table borrowed_books
 add borrow_id int auto_increment primary key;
 
@@ -72,3 +73,17 @@ foreign key(book_name) references books(book_name);
 
 alter table books
 add constraint unique_book_name unique(book_name);
+
+select m.member_name,b.book_name
+from borrowed_books bb
+join members m on bb.member_id=m.member_id
+join books b on bb.book_name=b.book_name;
+
+select book_name,count(*) as borrow_count
+from borrowed_books
+group by book_name;
+
+select b.book_name
+from books b
+left join borrowed_books bb on b.book_name=bb.book_name
+where bb.book_name is null;
